@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyo.entity.Users">
+    <select id="findUsers" resultMap="forUsers">
+    select * from users
+    <if test="id != null">
+        where id = #{id}
+    </if>
+  </select>
+    <resultMap id="forUsers" type="com.kyo.entity.Users">
+
+        <result column="username" property="name"></result>
+    </resultMap>
+    <!--
+    <select id="findById" resultType="com.kyo.entity.Users">
+        select * from USER where id = #{id};
+    </select>
+    -->
+    <sql id="user_fields">
+username, userpass, nickname, age, gender, email, phone, createTime, updateTime, lastLogin, userstatus, remark
+</sql>
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        insert into users(
+        <include refid="user_fields"/>
+        )
+        values(#{name},#{userpass}, #{nickname}, #{age}, #{gender}, #{email}, #{phone}, #{createTime}, #{updateTime}, #{lastLogin}, #{userStatus}, #{remark})
+    </insert>
+</mapper>
